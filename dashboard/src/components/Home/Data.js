@@ -4,6 +4,7 @@ import hmtstrallion from "../Home/images/HMTStrallion200.png"
 import mono200 from "../Home/images/mono-200.jpg"
 import mtcmem from "../Home/images/mtcmEdgeModule.png"
 import digitalTwin from "./images/spindle_feeddrive.png"
+import foundry from "./images/foundry.png"
 
 export const machineData = [
     {
@@ -15,7 +16,8 @@ export const machineData = [
       specs: {
         capacity: "5-axis machining",
         precision: "±0.01mm",
-        maxSpeed: "8000 RPM"
+        maxSpeed: "8000 RPM",
+        machineStatus: "ON"
       }
     },
     {
@@ -23,11 +25,12 @@ export const machineData = [
       name: "Stallion-200 CNC Turning Machine",
       image: hmtstrallion,
       description: "A Stallion-200 CNC Turning Machine is primarily used to produce precise, cylindrical shaped parts by rotating a workpiece while a cutting tool removes material, allowing for the creation of complex features like threads, shoulders, and diameters with high accuracy, typically used in industries like automotive, aerospace, medical, and manufacturing in general where high precision components are needed",
-      detailLink: "/machines/robot-arm",
+      detailLink: "https://cmti-edge.online/dashboard/NewRealTimeDashboard/MainDashboard/index.html",
       specs: {
         payload: "25kg",
         reach: "1.8m",
-        accuracy: "±0.05mm"
+        accuracy: "±0.05mm",
+        machineStatus: "ON"
       }
     },
     {
@@ -35,11 +38,12 @@ export const machineData = [
       name: "Machine Tool Condition Monitoring Edge Module",
       image: mtcmem,
       description: "It is a Technology developed by CMTI for 'Machine Tool Condition Monitoring' using Edge computing, essentially allowing for real-time monitoring and analysis of machine tool health data directly at the machine, without needing to send large amounts of data to a central server, thus enabling faster detection and response to potential issues and minimizing downtime in manufacturing processes.",
-      detailLink: "/machines/3d-printer",
+      detailLink: "https://cmti-smddc-dashboard.com/dashboard",
       specs: {
         buildVolume: "500x500x500mm",
         materials: ["PLA", "ABS", "PETG"],
-        layerResolution: "0.1mm"
+        layerResolution: "0.1mm",
+        machineStatus: "ON"
       }
     },
     {
@@ -51,7 +55,8 @@ export const machineData = [
       specs: {
         laserPower: "500W",
         cutWidth: "0.2mm",
-        materialCompatibility: ["Steel", "Aluminum", "Wood"]
+        materialCompatibility: ["Steel", "Aluminum", "Wood"],
+        machineStatus: "ON"
       }
     },
     {
@@ -63,19 +68,21 @@ export const machineData = [
       specs: {
         injectionForce: "250 tons",
         cycleTime: "30-60 seconds",
-        mouldSize: "600x600mm"
+        mouldSize: "600x600mm",
+        machineStatus: "ON"
       }
     },
     {
       id: 6,
-      name: "Coordinate Measuring Machine",
-      image: "/images/cmm.jpg",
-      description: "Precision measurement system for dimensional verification and quality control in manufacturing.",
-      detailLink: "/machines/coordinate-measuring",
+      name: "Integrated Smart Foundry 4.0",
+      image: foundry,
+      description: "CMTI has developed a Integrated smart foundry system that can produce a small intricate metal components with better quality. The system comprises of 3D printer, Sand Mixing and Moulding machine,Automatic melting & pouring unit powered and controlled by IIOT enabled controller. The technology primarily address the need for rapid manufacture of small parts required in small quantities, which is not economical for conventional foundries",
+      detailLink: "https://ifoundry.online",
       specs: {
         accuracy: "±0.005mm",
         scanningSpeed: "600 points/second",
-        probeTypes: ["Touch", "Optical"]
+        probeTypes: ["Touch", "Optical"],
+        machineStatus: "ON"
       }
     },
     {
@@ -87,7 +94,8 @@ export const machineData = [
       specs: {
         weldingType: "MIG/TIG",
         jointAccuracy: "±0.2mm",
-        workEnvelope: "2.5m radius"
+        workEnvelope: "2.5m radius",
+        machineStatus: "ON"
       }
     },
     {
@@ -99,7 +107,8 @@ export const machineData = [
       specs: {
         maxTemperature: "1200°C",
         chamberSize: "1000x800x600mm",
-        heatingUniformity: "±5°C"
+        heatingUniformity: "±5°C",
+        machineStatus: "ON"
       }
     },
     {
@@ -111,7 +120,8 @@ export const machineData = [
       specs: {
         speed: "2m/second",
         capacity: "500kg/minute",
-        trackLength: "50m"
+        trackLength: "50m",
+        machineStatus: "ON"
       }
     },
     {
@@ -123,7 +133,8 @@ export const machineData = [
       specs: {
         sprayPattern: "360-degree",
         coverageArea: "10m²/hour",
-        paintTypes: ["Liquid", "Powder"]
+        paintTypes: ["Liquid", "Powder"],
+        machineStatus: "ON"
       }
     }
   ];

@@ -116,7 +116,7 @@ const HomePage = () => {
 
       {/* Main Content */}
       <main className="flex-grow container mx-auto px-4 py-8">
-        <h1 className={`text-5xl font-extrabold text-center mb-12 ${
+        <h1 className={`text-4xl font-extrabold text-center mb-12 ${
           isDarkMode 
             ? 'text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400' 
             : 'text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600'
