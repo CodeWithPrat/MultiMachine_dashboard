@@ -132,7 +132,7 @@ export const machineData = [
     {
       id: 10,
       name: "Paint Spray Robot",
-      image: "/images/paint-robot.jpg",
+      image: mazak400,
       description: "Precision robotic painting system for consistent, high-quality surface coating in automotive and industrial applications.",
       detailLink: "/machines/paint-robot",
       specs: {
