@@ -5,6 +5,9 @@ import mono200 from "../Home/images/mono-200.jpg"
 import mtcmem from "../Home/images/mtcmEdgeModule.png"
 import digitalTwin from "./images/spindle_feeddrive.png"
 import foundry from "./images/foundry.png"
+import feeddrive from "./images/feeddrive.png"
+import intellipod from "./images/intellipod.png"
+import { Phone } from "lucide-react"
 
 export const machineData = [
     {
@@ -62,7 +65,7 @@ export const machineData = [
     {
       id: 5,
       name: "Development of DigitalTwin for Test Rigs of Machine Tool Subsystems",
-      image: digitalTwin,
+      image: feeddrive,
       description: "Automated plastic injection molding machine for mass production of complex plastic components.",
       detailLink: "/machines/injection-molder",
       specs: {
@@ -87,8 +90,8 @@ export const machineData = [
     },
     {
       id: 7,
-      name: "Welding Robot",
-      image: "/images/welding-robot.jpg",
+      name: "Intellipod",
+      image: intellipod,
       description: "Advanced automated welding system for consistent and high-quality industrial welding applications.",
       detailLink: "/machines/welding-robot",
       specs: {
@@ -141,7 +144,10 @@ export const machineData = [
   
   export const companyInfo = {
     name: "Central Manufacturing Technology Institute",
-    address: "123 Innovation Drive, Tech City, TC 54321",
+    dept: "Smart Manufacturing Demo & Development Cell (SMDDC)",
+    address: "Tumkur Rd, Yeshwanthpur Industrial Area, Phase 1, Yeswanthpur, Bengaluru, Karnataka 560022",
+    Phone: "+91 80 22188243",
+    email: "cmti@cmti.res.in",
     socialMedia: {
       google: "https://google.com/techindustrial",
       youtube: "https://youtube.com/techindustrial",
