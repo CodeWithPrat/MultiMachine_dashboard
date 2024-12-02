@@ -7,7 +7,9 @@ import digitalTwin from "./images/spindle_feeddrive.png"
 import foundry from "./images/foundry.png"
 import feeddrive from "./images/feeddrive.png"
 import intellipod from "./images/intellipod.png"
-import { Phone } from "lucide-react"
+import cmtilogo from "./images/CMTI Logo.png"
+import mcv450 from "./images/mcv-450.png"
+import mazak400 from "./images/mazak400.png"
 
 export const machineData = [
     {
@@ -103,8 +105,8 @@ export const machineData = [
     },
     {
       id: 8,
-      name: "Industrial Furnace",
-      image: "/images/industrial-furnace.jpg",
+      name: "ACE- MCV-450",
+      image: mcv450,
       description: "High-temperature thermal processing equipment for heat treatment and metallurgical processes.",
       detailLink: "/machines/industrial-furnace",
       specs: {
@@ -116,8 +118,8 @@ export const machineData = [
     },
     {
       id: 9,
-      name: "Automated Conveyor System",
-      image: "/images/conveyor-system.jpg",
+      name: "mazak400",
+      image: mazak400,
       description: "Advanced material handling system for efficient product transportation and sorting in manufacturing environments.",
       detailLink: "/machines/conveyor-system",
       specs: {
@@ -148,6 +150,7 @@ export const machineData = [
     address: "Tumkur Rd, Yeshwanthpur Industrial Area, Phase 1, Yeswanthpur, Bengaluru, Karnataka 560022",
     Phone: "+91 80 22188243",
     email: "cmti@cmti.res.in",
+    logo: cmtilogo,
     socialMedia: {
       google: "https://google.com/techindustrial",
       youtube: "https://youtube.com/techindustrial",
