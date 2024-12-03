@@ -159,6 +159,78 @@ const TechnologyInsights = ({ isDarkMode }) => {
   );
 };
 
+// New Blinking Bulb Component
+const BlinkingBulb = ({ position, isDarkMode }) => {
+  const bulbRef = useRef();
+  const lightRef = useRef();
+  const [isBlinking, setIsBlinking] = useState(false);
+  const blinkIntervalRef = useRef(null);
+
+  // Implement proper blinking mechanism
+  useEffect(() => {
+    if (!isDarkMode) {
+      // Reset blinking when not in dark mode
+      setIsBlinking(false);
+      if (blinkIntervalRef.current) {
+        clearInterval(blinkIntervalRef.current);
+      }
+      return;
+    }
+
+    // Start blinking in dark mode
+    setIsBlinking(true);
+    
+    blinkIntervalRef.current = setInterval(() => {
+      if (lightRef.current && bulbRef.current) {
+        // Toggle between fully on and completely off
+        lightRef.current.intensity = lightRef.current.intensity > 0 ? 0 : 3;
+      }
+    }, 500); // Blink every 500ms
+
+    // Cleanup interval on unmount or mode change
+    return () => {
+      if (blinkIntervalRef.current) {
+        clearInterval(blinkIntervalRef.current);
+      }
+    };
+  }, [isDarkMode]);
+
+  // Additional dynamic lighting and subtle movement
+  useFrame(({ clock }) => {
+    if (!isDarkMode || !bulbRef.current) return;
+
+    const time = clock.getElapsedTime();
+    
+    // Subtle bulb movement
+    bulbRef.current.rotation.x = Math.sin(time) * 0.1;
+    bulbRef.current.rotation.y = Math.cos(time) * 0.1;
+  });
+
+  return isDarkMode ? (
+    <group ref={bulbRef} position={position}>
+      {/* Bulb Mesh */}
+      <mesh>
+        <sphereGeometry args={[0.5, 32, 32]} />
+        <meshStandardMaterial 
+          color="#FFD700" 
+          emissive="#FFD700" 
+          emissiveIntensity={isBlinking ? 1 : 0.5}
+        />
+      </mesh>
+      
+      {/* Point Light */}
+      <pointLight 
+        ref={lightRef}
+        color="#FFD700"
+        intensity={isBlinking ? 3 : 1}
+        distance={30}
+        decay={2}
+        castShadow
+      />
+    </group>
+  ) : null;
+};
+
 // Main Workshop Layout Component
 const WorkshopLayout = () => {
   // State management
@@ -207,6 +279,16 @@ const WorkshopLayout = () => {
 
   // Theme toggle handler
   const toggleTheme = () => setIsDarkMode((prev) => !prev);
+
+  // Calculate bulb positions (6 bulbs spread across the workshop)
+  const bulbPositions = [
+    [-20, 15, -15],
+    [20, 15, -15],
+    [-20, 15, 15],
+    [20, 15, 15],
+    [0, 15, -20],
+    [0, 15, 20]
+  ];
 
   return (
     <div
@@ -343,6 +425,15 @@ const WorkshopLayout = () => {
             {/* Lighting Setup */}
             <ambientLight intensity={isDarkMode ? 2.2 : 0.5} />
             <pointLight position={[10, 10, 10]} intensity={1.5} />
+
+            {/* Blinking Bulbs */}
+            {bulbPositions.map((position, index) => (
+              <BlinkingBulb 
+                key={`bulb-${index}`} 
+                position={position} 
+                isDarkMode={isDarkMode} 
+              />
+            ))}
 
             {/* Industrial Workshop Floor */}
             <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2, 0]}>
