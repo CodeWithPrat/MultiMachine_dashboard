@@ -24,6 +24,8 @@ import {
   Settings,
 } from "lucide-react";
 
+import BlinkinBulb from "./Bulb";
+
 // Extend the HTML component from react-three-fiber for custom HTML in 3D scene
 extend({ Html });
 
@@ -179,7 +181,7 @@ const BlinkingBulb = ({ position, isDarkMode }) => {
 
     // Start blinking in dark mode
     setIsBlinking(true);
-    
+
     blinkIntervalRef.current = setInterval(() => {
       if (lightRef.current && bulbRef.current) {
         // Toggle between fully on and completely off
@@ -200,7 +202,7 @@ const BlinkingBulb = ({ position, isDarkMode }) => {
     if (!isDarkMode || !bulbRef.current) return;
 
     const time = clock.getElapsedTime();
-    
+
     // Subtle bulb movement
     bulbRef.current.rotation.x = Math.sin(time) * 0.1;
     bulbRef.current.rotation.y = Math.cos(time) * 0.1;
@@ -211,15 +213,15 @@ const BlinkingBulb = ({ position, isDarkMode }) => {
       {/* Bulb Mesh */}
       <mesh>
         <sphereGeometry args={[0.5, 32, 32]} />
-        <meshStandardMaterial 
-          color="#FFD700" 
-          emissive="#FFD700" 
+        <meshStandardMaterial
+          color="#FFD700"
+          emissive="#FFD700"
           emissiveIntensity={isBlinking ? 1 : 0.5}
         />
       </mesh>
-      
+
       {/* Point Light */}
-      <pointLight 
+      <pointLight
         ref={lightRef}
         color="#FFD700"
         intensity={isBlinking ? 3 : 1}
@@ -237,6 +239,10 @@ const WorkshopLayout = () => {
   const [isDarkMode, setIsDarkMode] = useState(false); // Theme toggle
   const [selectedMachine, setSelectedMachine] = useState(null); // Selected machine details
   const { progress } = useProgress(); // Loading progress for 3D assets
+
+  const [isFloorLit, setIsFloorLit] = useState(false);
+  const floorMeshRef = useRef();
+  const additionalLightRef = useRef();
 
   // Optimized machine positioning strategy using useMemo
   const getMachinePositions = useMemo(() => {
@@ -280,6 +286,18 @@ const WorkshopLayout = () => {
   // Theme toggle handler
   const toggleTheme = () => setIsDarkMode((prev) => !prev);
 
+  // Handle floor lighting effect after bulbs blink
+  const handleBlinkComplete = () => {
+    setIsFloorLit(true);
+  };
+
+  // Cleanup floor lighting when theme changes
+  useEffect(() => {
+    if (!isDarkMode) {
+      setIsFloorLit(false);
+    }
+  }, [isDarkMode]);
+
   // Calculate bulb positions (6 bulbs spread across the workshop)
   const bulbPositions = [
     [-20, 15, -15],
@@ -287,15 +305,15 @@ const WorkshopLayout = () => {
     [-20, 15, 15],
     [20, 15, 15],
     [0, 15, -20],
-    [0, 15, 20]
+    [0, 15, 20],
   ];
 
   return (
     <div
       // Full-screen container with dynamic background
       className={`h-screen relative overflow-hidden ${isDarkMode
-        ? "bg-gradient-to-br from-gray-900 to-black text-gray-100"
-        : "bg-gradient-to-br from-gray-50 to-white text-gray-900"
+          ? "bg-gradient-to-br from-gray-900 to-black text-gray-100"
+          : "bg-gradient-to-br from-gray-50 to-white text-gray-900"
         }`}
     >
       {/* Navigation Bar */}
@@ -428,22 +446,54 @@ const WorkshopLayout = () => {
 
             {/* Blinking Bulbs */}
             {bulbPositions.map((position, index) => (
-              <BlinkingBulb 
-                key={`bulb-${index}`} 
-                position={position} 
-                isDarkMode={isDarkMode} 
+              <BlinkingBulb
+                key={`bulb-${index}`}
+                position={position}
+                isDarkMode={isDarkMode}
+                onBlinkComplete={handleBlinkComplete}
               />
             ))}
 
             {/* Industrial Workshop Floor */}
-            <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2, 0]}>
+            <mesh
+              ref={floorMeshRef}
+              rotation={[-Math.PI / 2, 0, 0]}
+              position={[0, -2, 0]}
+            >
               <planeGeometry args={[60, 40]} />
               <meshStandardMaterial
                 color={isDarkMode ? "#1f2937" : "#f3f4f6"}
                 roughness={0.5}
                 metalness={0.3}
+                // Additional emission when floor is lit
+                emissive={
+                  isFloorLit ? (isDarkMode ? "#0f172a" : "#e5e7eb") : "black"
+                }
+                emissiveIntensity={isFloorLit ? 0.5 : 0}
               />
             </mesh>
+
+            {/* Additional Floor Lighting */}
+            {isFloorLit && isDarkMode && (
+              <>
+                <spotLight
+                  ref={additionalLightRef}
+                  position={[0, 20, 0]}
+                  angle={Math.PI / 3}
+                  penumbra={1}
+                  intensity={3}
+                  color="#87CEEB"
+                  castShadow
+                  shadow-mapSize-width={1024}
+                  shadow-mapSize-height={1024}
+                />
+                <hemisphereLight
+                  color="#87CEEB"
+                  groundColor="#0f172a"
+                  intensity={1.5}
+                />
+              </>
+            )}
 
             {/* Render Machines */}
             {getMachinePositions.map((machine, index) => (
@@ -458,9 +508,9 @@ const WorkshopLayout = () => {
 
             {/* Contact Shadows for Depth */}
             <ContactShadows
-              opacity={0.5}
+              opacity={isFloorLit && isDarkMode ? 0.8 : 0.5}
               scale={50}
-              blur={2}
+              blur={isFloorLit && isDarkMode ? 3 : 2}
               far={10}
               resolution={256}
               color={isDarkMode ? "#000" : "#aaa"}
@@ -604,14 +654,24 @@ const WorkshopLayout = () => {
 
             {/* More Details Button */}
             <button
+              onClick={() => {
+                if (selectedMachine && selectedMachine.detailLink) {
+                  // Open the link in a new tab
+                  window.open(
+                    selectedMachine.detailLink,
+                    "_blank",
+                    "noopener,noreferrer"
+                  );
+                }
+              }}
               className={`
-          mt-6 w-full py-4 rounded-xl 
-          transform transition-all hover:scale-105
-          ${isDarkMode
+    mt-6 w-full py-4 rounded-xl 
+    transform transition-all hover:scale-105
+    ${isDarkMode
                   ? "bg-blue-700 hover:bg-blue-600 text-white"
                   : "bg-blue-500 hover:bg-blue-600 text-white"
                 }
-        `}
+  `}
             >
               More Details <ArrowRight className="inline ml-2" />
             </button>

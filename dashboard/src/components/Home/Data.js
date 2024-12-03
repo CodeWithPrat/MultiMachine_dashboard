@@ -10,6 +10,7 @@ import intellipod from "./images/intellipod.png"
 import cmtilogo from "./images/CMTI Logo.png"
 import mcv450 from "./images/mcv-450.png"
 import mazak400 from "./images/mazak400.png"
+import phwip from "./images/PHWIP.png"
 
 export const machineData = [
     {
@@ -131,9 +132,9 @@ export const machineData = [
     },
     {
       id: 10,
-      name: "Paint Spray Robot",
-      image: mazak400,
-      description: "Precision robotic painting system for consistent, high-quality surface coating in automotive and industrial applications.",
+      name: "12T Horizontal wax injection machine",
+      image: phwip,
+      description: "This is a Hydraulic, 4-pillar, down-stroking, vertical clamping, horizontal injection wax injection machine, with automated operations. The machine is used for large production runs, to produce quality wax patterns.",
       detailLink: "/machines/paint-robot",
       specs: {
         sprayPattern: "360-degree",
